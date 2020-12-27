@@ -9,7 +9,7 @@ try {
     printer = new ThermalPrinter({
         type: PrinterTypes.EPSON,
         interface: 'printer:EPSON TM-T20X Receipt',
-        // driver: require('electron-printer'),
+        driver: require('printer'),
         options: {
             timeout: 1000
         },
@@ -21,7 +21,7 @@ try {
     });
 }
 catch (e) {
-    console.log('printer error');
+    console.log('printer error', e);
 }
 
 
@@ -58,37 +58,25 @@ device.on('data', function (data) {
 });
 */
 
-const e = angular.element(document.body);
 
-e.ready(function () {
-
-    console.log('angular ready');
-    
-    const scope = e.scope();
-
-    scope.$on('print:order', async function (order) {
-        console.log('print order:', order);
+window.tprint = function () {
+    try {
+        printer.println('Novo pedido');
+        printer.upsideDown(true);
+        printer.cut();
 
         try {
-            printer.println('Novo pedido');
-            printer.upsideDown(true);
-            printer.cut();
-
-            try {
-                await printer.execute();
-                console.log('Print success.');
-            }
-            catch (e) {
-                console.log('Print error:', error);
-            }
+            printer.execute();
+            console.log('Print success.');
         }
         catch (e) {
-            console.log('Print main error:', error);
+            console.log('Print error:', error);
         }
-
-    });
-})
-
+    }
+    catch (e) {
+        console.log('Print main error:', error);
+    }
+}
     
 
 
