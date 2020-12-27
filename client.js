@@ -58,25 +58,19 @@ device.on('data', function (data) {
 });
 */
 
-
-window.tprint = function () {
-    try {
-        printer.println('Novo pedido');
-        printer.upsideDown(true);
+window.thermalPrinter = {
+    activate() {
+        
+    },
+    print(content) {
+        printer.print(content);
         printer.cut();
-
-        try {
-            printer.execute();
-            console.log('Print success.');
-        }
-        catch (e) {
-            console.log('Print error:', error);
-        }
+        printer.execute();
     }
-    catch (e) {
-        console.log('Print main error:', error);
+};
+
+window.commonPrinter = {
+    activate() {
+        throw 'Impressora comum desabilitada';
     }
-}
-    
-
-
+};
