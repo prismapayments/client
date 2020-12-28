@@ -6,11 +6,11 @@ let win;
 function createWindow() {
     win = new BrowserWindow({ 
         width: 1400, 
-        height: 800, 
+        height: 900,
+        fullscreen: true,
         webPreferences: { 
             nodeIntegration: false, 
             enableRemoteModule: true,
-            //webSecurity: false,
             preload: path.join(app.getAppPath(), 'client.js'),
         } 
     });

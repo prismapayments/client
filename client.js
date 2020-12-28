@@ -66,6 +66,7 @@ window.thermalPrinter = {
         printer.print(content);
         printer.cut();
         printer.execute();
+        printer.clear();
     }
 };
 
