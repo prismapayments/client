@@ -1,8 +1,10 @@
 {
-  "name": "Prisma Client",
+  "name": "prismapayments-client",
   "version": "1.0.0",
   "description": "",
-  "resolutions": "https://github.com/prismapayments/client",
+  "repository": {
+    "url": "https://github.com/prismapayments/client"
+  },
   "main": "index.js",
   "scripts": {
     "start": "electron .",
