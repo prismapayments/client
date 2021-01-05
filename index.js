@@ -14,7 +14,7 @@ function createWindow() {
             preload: path.join(app.getAppPath(), 'client.js'),
         } 
     });
-    win.loadURL('http://localhost:8080/manager');
+    win.loadURL('https://prismapayments.com/manager');
     win.webContents.openDevTools();
     win.on('closed', () => { win = null; });
 }
