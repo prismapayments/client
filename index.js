@@ -15,7 +15,7 @@ function createWindow() {
         } 
     });
     win.loadURL('https://prismapayments.com/manager');
-    win.webContents.openDevTools();
+    // win.webContents.openDevTools();
     win.on('closed', () => { win = null; });
 }
 
