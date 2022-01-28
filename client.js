@@ -2,29 +2,48 @@
 const HID = require('node-hid');
 const ThermalPrinter = require('node-thermal-printer').printer;
 const PrinterTypes = require('node-thermal-printer').types;
+const driver = require('printer');
 
-let printer;
+window.printers = {
+    printers: {},
 
-try {
-    printer = new ThermalPrinter({
-        type: PrinterTypes.EPSON,
-        interface: 'printer:EPSON TM-T20X Receipt',
-        driver: require('printer'),
-        options: {
-            timeout: 1000
-        },
-        width: 48
-    });
-    
-    printer.isPrinterConnected().then(isConnected => {
-        console.log('Printer connected:', isConnected);
-    });
-}
-catch (e) {
-    console.log('printer error', e);
-}
+    print(content, _id) {
+        const printer = this.printers[_id];
+        if (!printer) {
+            return;
+        }
+        printer.print(content);
+        printer.cut();
+        printer.execute();
+        printer.clear();
+    },
 
+    add(config) {
+        delete this.printers[config._id];
 
+        const printer = new ThermalPrinter({
+            type: PrinterTypes.EPSON,
+            interface: config.interface,
+            driver,
+            options: {
+                timeout: 1000
+            },
+            width: 48
+        });
+
+        return new Promise(resolve => {
+            printer.isPrinterConnected().then(connected => {
+                resolve(connected);
+                if (connected) {
+                    this.printers[config._id] = printer;
+                }
+            })
+            .catch(() => {
+                resolve(false);
+            });
+        });
+    }
+};
 
 // console.log(HID.devices());
 
@@ -57,21 +76,3 @@ device.on('data', function (data) {
     read(data);
 });
 */
-
-window.thermalPrinter = {
-    activate() {
-        
-    },
-    print(content) {
-        printer.print(content);
-        printer.cut();
-        printer.execute();
-        printer.clear();
-    }
-};
-
-window.commonPrinter = {
-    activate() {
-        throw 'Impressora comum desabilitada';
-    }
-};
